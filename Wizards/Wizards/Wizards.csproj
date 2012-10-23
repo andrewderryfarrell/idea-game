@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Enemy.cs" />
     <Compile Include="Fire.cs" />
+    <Compile Include="HealthBar.cs" />
     <Compile Include="MouseIcon.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Knight.cs" />

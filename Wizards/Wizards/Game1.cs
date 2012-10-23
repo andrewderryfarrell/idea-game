@@ -27,6 +27,8 @@ namespace Wizards
         TimeSpan totalForSpawnElapsed;
         Knight player = new Knight();
         MouseIcon mMouseIconSprite = new MouseIcon();
+        //Define new Healthbar object
+        HealthBar mHealthbar;
 
         public Game1()
         {
@@ -49,6 +51,9 @@ namespace Wizards
             mMouseIconSprite = new MouseIcon();
             totalForFireElapsed = TimeSpan.FromMilliseconds(200);
             totalForSpawnElapsed = TimeSpan.Zero;
+            //Create Healthbar object
+            mHealthbar = new HealthBar();
+
             base.Initialize();
         }
 
@@ -68,6 +73,9 @@ namespace Wizards
             }*/
             player.LoadContent(this.Content);
             mMouseIconSprite.LoadContent(this.Content);
+
+            //Load Content for HealthBar
+            mHealthbar.LoadContent(this.Content, "HealthBar");
         }
 
         /// <summary>
@@ -138,6 +146,8 @@ namespace Wizards
             foreach (Enemy a in enemyToDelete)
             {
                 enemies.Remove(a);
+                //Every time an enemy is remove, lower total health by 5
+                mHealthbar.changeHealth(-5);
             }
         }
 
@@ -203,6 +213,10 @@ namespace Wizards
             }
             player.Draw(spriteBatch);
             mMouseIconSprite.Draw(spriteBatch);
+
+            //Draw the healthbar on the screen
+            mHealthbar.Draw(spriteBatch, this.Window);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
