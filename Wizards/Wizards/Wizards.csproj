@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FuelBar.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Fire.cs" />
     <Compile Include="HealthBar.cs" />

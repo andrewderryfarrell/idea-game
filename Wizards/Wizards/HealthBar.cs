@@ -18,6 +18,7 @@ namespace Wizards
 
         //The texture object used when drawing the sprite
         private Texture2D mHealthBar;
+        private Texture2D mHealth;
 
         //The variable to keep track of health
         private int mCurrentHealth = 100;
@@ -30,13 +31,18 @@ namespace Wizards
         //Draw the sprite to the screen
         public void Draw(SpriteBatch theSpriteBatch, GameWindow window)
         {
-            theSpriteBatch.Draw(mHealthBar, new Rectangle(window.ClientBounds.Width / 2 - mHealthBar.Width / 2, 30, mHealthBar.Width, 44), new Rectangle(0, 45, mHealthBar.Width, 44), Color.Gray);
+            //Draw the box around the health bar
+            Rectangle healthbarectangle = new Rectangle(window.ClientBounds.Width - mHealthBar.Width, 2, mHealthBar.Width, mHealthBar.Height);
+            theSpriteBatch.Draw(mHealthBar, healthbarectangle, Color.White);
+
+            //Draw Background
+            Rectangle backgroundrectangle = new Rectangle((window.ClientBounds.Width - mHealthBar.Width) + 1 , 2, mHealthBar.Width - 1, mHealthBar.Height - 1);
+            theSpriteBatch.Draw(mHealthBar, backgroundrectangle, Color.Gray);
             
             //Draw the current health level based on the current Health
-            theSpriteBatch.Draw(mHealthBar, new Rectangle(window.ClientBounds.Width / 2 - mHealthBar.Width / 2, 30, (int)(mHealthBar.Width * ((double)mCurrentHealth / 100)), 44), new Rectangle(0, 45, mHealthBar.Width, 44), Color.Red);
+            Rectangle variablehealthrectangle = new Rectangle((window.ClientBounds.Width - mHealthBar.Width) + 1, 2, (int)((mHealthBar.Width - 1) * ((double)mCurrentHealth / 100)), mHealthBar.Height - 1);
+            theSpriteBatch.Draw(mHealthBar, variablehealthrectangle, Color.Red);
 
-            //Draw the box around the health bar
-            theSpriteBatch.Draw(mHealthBar, new Rectangle(window.ClientBounds.Width / 2 - mHealthBar.Width / 2, 30, mHealthBar.Width, 44), new Rectangle(0, 0, mHealthBar.Width, 44), Color.White);
         }
         //Change Health
         public void changeHealth(int healthchange)

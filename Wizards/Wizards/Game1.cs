@@ -29,6 +29,7 @@ namespace Wizards
         MouseIcon mMouseIconSprite = new MouseIcon();
         //Define new Healthbar object
         HealthBar mHealthbar;
+        FuelBar mFuelbar;
 
         public Game1()
         {
@@ -53,6 +54,7 @@ namespace Wizards
             totalForSpawnElapsed = TimeSpan.Zero;
             //Create Healthbar object
             mHealthbar = new HealthBar();
+            mFuelbar = new FuelBar();
 
             base.Initialize();
         }
@@ -75,7 +77,10 @@ namespace Wizards
             mMouseIconSprite.LoadContent(this.Content);
 
             //Load Content for HealthBar
-            mHealthbar.LoadContent(this.Content, "HealthBar");
+            mHealthbar.LoadContent(this.Content, "healthbartest");
+
+            //Load Content for FuelBar
+            mFuelbar.LoadContent(this.Content, "healthbartest");
         }
 
         /// <summary>
@@ -216,6 +221,9 @@ namespace Wizards
 
             //Draw the healthbar on the screen
             mHealthbar.Draw(spriteBatch, this.Window);
+
+            //Draw the fuelbar to the screen
+            mFuelbar.Draw(spriteBatch, this.Window);
 
             spriteBatch.End();
 
