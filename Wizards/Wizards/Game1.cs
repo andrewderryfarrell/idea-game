@@ -30,6 +30,7 @@ namespace Wizards
         //Define new Healthbar object
         HealthBar mHealthbar;
         FuelBar mFuelbar;
+        Vector2 oldposition;
 
         public Game1()
         {
@@ -104,6 +105,12 @@ namespace Wizards
                 this.Exit();
 
             // TODO: Add your update logic here
+            //Fuel change
+            if(!player.Position.Equals(oldposition))
+            {
+                mFuelbar.changeFuel(-1);
+            }
+            oldposition = player.Position;
             mMouseIconSprite.Update();
             player.Update(gameTime, graphics);
             MouseState ms = Mouse.GetState();
@@ -115,11 +122,53 @@ namespace Wizards
             }
             foreach (Enemy a in enemies) // Loop through List with foreach
             {
-                a.Update(gameTime, player.Position, player.Size);
+                if(!checkEnemyPlayerCollision(a))
+                {
+                    a.Update(gameTime, player.Position, player.Size);
+                }
             }
             removeLostBalls();
             checkFireEnemyCollision();
+
+            //Change health on contact
+            if (checkEnemyPlayerCollision(null))
+            {
+                mHealthbar.changeHealth(-1);
+            }
+
             base.Update(gameTime);
+        }
+
+        private Boolean checkEnemyPlayerCollision(Enemy x)
+        {
+            float enemyPosX, enemyPosY, playerOffsetX, playerOffsetY, playerPosX, playerPosY;
+            playerPosX = player.Position.X;
+            playerPosY = player.Position.Y;
+            playerOffsetX = player.Position.X + player.Size.Width;
+            playerOffsetY = player.Position.Y + player.Size.Width;
+            if (x == null)
+            {
+                foreach (Enemy b in enemies)
+                {
+                    enemyPosX = b.Position.X + (b.Size.Width / 2);
+                    enemyPosY = b.Position.Y + (b.Size.Width / 2);
+                    //If collides with enemy
+                    if (enemyPosX > playerPosX && enemyPosX < playerOffsetX && enemyPosY > playerPosY && enemyPosY < playerOffsetY)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                enemyPosX = x.Position.X + (x.Size.Width / 2);
+                enemyPosY = x.Position.Y + (x.Size.Width / 2);
+                if (enemyPosX > playerPosX && enemyPosX < playerOffsetX && enemyPosY > playerPosY && enemyPosY < playerOffsetY)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void checkFireEnemyCollision()
@@ -152,7 +201,7 @@ namespace Wizards
             {
                 enemies.Remove(a);
                 //Every time an enemy is remove, lower total health by 5
-                mHealthbar.changeHealth(-5);
+                //mHealthbar.changeHealth(-5);
             }
         }
 
@@ -208,6 +257,7 @@ namespace Wizards
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            player.Draw(spriteBatch);
             foreach (Fire a in balls) // Loop through List with foreach
             {
                 a.Draw(spriteBatch);
@@ -216,15 +266,15 @@ namespace Wizards
             {
                 a.Draw(spriteBatch);
             }
-            player.Draw(spriteBatch);
-            mMouseIconSprite.Draw(spriteBatch);
+            
+           
 
             //Draw the healthbar on the screen
             mHealthbar.Draw(spriteBatch, this.Window);
 
             //Draw the fuelbar to the screen
             mFuelbar.Draw(spriteBatch, this.Window);
-
+            mMouseIconSprite.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

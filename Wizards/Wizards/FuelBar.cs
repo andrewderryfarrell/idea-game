@@ -15,7 +15,7 @@ namespace Wizards
         private Texture2D mFuelBar;
 
         //The variable to keep track of health
-        private int mCurrentFuel = 100;
+        private int mCurrentFuel = 1000;
 
         //Load the texture for the sprite using the Content Pipeline
         public void LoadContent(ContentManager theContentManager, string theAssetName)
@@ -34,7 +34,7 @@ namespace Wizards
             theSpriteBatch.Draw(mFuelBar, backgroundrectangle, Color.Gray);
 
             //Draw the current health level based on the current Health
-            Rectangle variablehealthrectangle = new Rectangle((window.ClientBounds.Width - mFuelBar.Width) + 1, mFuelBar.Height + 4, (int)((mFuelBar.Width - 1) * ((double)mCurrentFuel / 100)), mFuelBar.Height - 1);
+            Rectangle variablehealthrectangle = new Rectangle((window.ClientBounds.Width - mFuelBar.Width) + 1, mFuelBar.Height + 4, (int)((mFuelBar.Width - 1) * ((double)mCurrentFuel / 1000)), mFuelBar.Height - 1);
             theSpriteBatch.Draw(mFuelBar, variablehealthrectangle, Color.OrangeRed);
 
         }
@@ -45,7 +45,7 @@ namespace Wizards
             mCurrentFuel += healthchange;
 
             //Force the health to remain between 0 and 100
-            mCurrentFuel = (int)MathHelper.Clamp(mCurrentFuel, 0, 100);
+            mCurrentFuel = (int)MathHelper.Clamp(mCurrentFuel, 0, 1000);
 
         }
     }
